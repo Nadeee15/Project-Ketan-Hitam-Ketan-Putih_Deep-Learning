@@ -1,0 +1,14 @@
+{
+  "pakai_pca": true,
+  "metode_label": "K-Means + PCA (5 komponen)",
+  "sil_score": 0.48523759841918945,
+  "best_n_pca": 5,
+  "class_names": [
+    "ketan_hitam",
+    "ketan_putih"
+  ],
+  "class_indices": {
+    "ketan_hitam": 0,
+    "ketan_putih": 1
+  }
+}
