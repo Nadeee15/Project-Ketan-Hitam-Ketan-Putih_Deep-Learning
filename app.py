@@ -18,365 +18,126 @@ IMG_SIZE = (224, 224)
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700&display=swap');
 
-/* ===== GLOBAL ===== */
 html, body, [class*="css"], .stApp {
     font-family: 'DM Sans', sans-serif !important;
 }
-.stApp {
-    background-color: #0a0a0a !important;
-}
-.block-container {
-    padding: 2rem 2.5rem 3rem !important;
-    max-width: 1100px !important;
-}
+.stApp { background-color: #0d0d0d !important; }
+.block-container { padding: 1.8rem 2rem 3rem !important; max-width: 1100px !important; }
+
+/* ===== HIDE CHROME ===== */
+#MainMenu, footer, header { visibility: hidden !important; }
+[data-testid="stToolbar"], .stDeployButton { display: none !important; }
 
 /* ===== SIDEBAR ===== */
-[data-testid="stSidebar"] {
-    background-color: #0F2D24 !important;
-    border-right: 1px solid rgba(255,255,255,0.07) !important;
-}
-[data-testid="stSidebar"] > div {
-    padding: 1.8rem 1.4rem !important;
-}
-[data-testid="stSidebar"] * {
-    color: rgba(255,255,255,0.7) !important;
-    font-family: 'DM Sans', sans-serif !important;
-}
-[data-testid="stSidebar"] hr {
-    border-color: rgba(255,255,255,0.1) !important;
-    margin: 1rem 0 !important;
-}
+[data-testid="stSidebar"] { background-color: #0F2D24 !important; border-right: 1px solid rgba(255,255,255,0.06) !important; }
+[data-testid="stSidebar"] > div { padding: 1.6rem 1.3rem !important; }
+[data-testid="stSidebar"] * { color: rgba(255,255,255,0.65) !important; font-family: 'DM Sans', sans-serif !important; }
+[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.08) !important; margin: 1rem 0 !important; }
 
-/* ===== HIDE DEFAULT STREAMLIT CHROME ===== */
-#MainMenu, footer, header { visibility: hidden !important; }
-[data-testid="stToolbar"] { display: none !important; }
-.stDeployButton { display: none !important; }
-
-/* ===== FILE UPLOADER ===== */
+/* ===== FILE UPLOADER — compact ===== */
 [data-testid="stFileUploader"] {
-    background: rgba(29,158,117,0.06) !important;
-    border: 1.5px dashed rgba(29,158,117,0.4) !important;
-    border-radius: 14px !important;
-    padding: 0.5rem !important;
+    background: rgba(29,158,117,0.05) !important;
+    border: 1.5px dashed rgba(29,158,117,0.35) !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    margin-bottom: 1.2rem !important;
 }
 [data-testid="stFileUploader"] label { display: none !important; }
-[data-testid="stFileUploaderDropzone"] {
-    background: transparent !important;
-    border: none !important;
-}
-[data-testid="stFileUploaderDropzoneInstructions"] * {
-    color: rgba(160,160,160,0.85) !important;
-    font-size: 13px !important;
-}
+[data-testid="stFileUploaderDropzone"] { background: transparent !important; border: none !important; padding: 0.8rem 1.2rem !important; }
+[data-testid="stFileUploaderDropzoneInstructions"] * { font-size: 13px !important; color: rgba(160,160,160,0.7) !important; }
+[data-testid="stFileUploaderDropzoneInstructions"] svg { fill: rgba(29,158,117,0.5) !important; }
 [data-testid="stBaseButton-secondary"] {
-    background: #1D9E75 !important;
-    color: #fff !important;
-    border: none !important;
-    border-radius: 8px !important;
-    font-size: 13px !important;
-    font-weight: 500 !important;
-    padding: 6px 16px !important;
+    background: #1D9E75 !important; color: #fff !important;
+    border: none !important; border-radius: 8px !important;
+    font-size: 12px !important; font-weight: 500 !important;
+    padding: 5px 14px !important;
 }
-[data-testid="stBaseButton-secondary"]:hover {
-    background: #16805f !important;
-}
+[data-testid="stBaseButton-secondary"]:hover { background: #16805f !important; }
+[data-testid="stFileUploaderFileName"] { font-size: 12px !important; color: rgba(200,200,200,0.8) !important; }
+[data-testid="stFileUploaderFileData"] { font-size: 11px !important; color: rgba(140,140,140,0.6) !important; }
 
-/* ===== PROGRESS BAR ===== */
+/* ===== PROGRESS BAR — override biru ke hijau ===== */
+/* Streamlit memakai styed-component internal — kita inject via iframe workaround */
+[data-testid="stProgress"] { margin: 0 0 4px !important; }
 [data-testid="stProgress"] > div {
-    background: rgba(255,255,255,0.1) !important;
+    background: rgba(255,255,255,0.08) !important;
     border-radius: 4px !important;
-    height: 5px !important;
+    height: 4px !important;
+    overflow: hidden !important;
 }
 [data-testid="stProgress"] > div > div {
     background: #1D9E75 !important;
     border-radius: 4px !important;
+    height: 4px !important;
 }
+/* fallback selector untuk versi streamlit berbeda */
+div[role="progressbar"] > div { background: #1D9E75 !important; }
+.stProgress > div > div > div > div { background: #1D9E75 !important; }
 
-/* ===== CAPTION ===== */
-[data-testid="stCaptionContainer"] p {
-    color: rgba(160,160,160,0.75) !important;
-    font-size: 11px !important;
-}
-
-/* ===== SPINNER ===== */
-[data-testid="stSpinner"] * {
-    color: rgba(160,160,160,0.7) !important;
-    font-size: 13px !important;
-}
-
-/* ===== METRIC CARDS ===== */
+/* ===== METRIC ===== */
 [data-testid="stMetric"] {
-    background: #161616 !important;
-    border: 1px solid rgba(255,255,255,0.09) !important;
-    border-radius: 12px !important;
-    padding: 14px 18px !important;
+    background: #161616 !important; border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 12px !important; padding: 14px 16px !important;
 }
-[data-testid="stMetricLabel"] p {
-    font-size: 10px !important;
-    font-weight: 600 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.08em !important;
-    color: rgba(160,160,160,0.6) !important;
-}
-[data-testid="stMetricValue"] {
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    color: #ffffff !important;
-}
-[data-testid="stMetricDelta"] {
-    font-size: 11px !important;
-    color: #1D9E75 !important;
-}
+[data-testid="stMetricLabel"] p { font-size: 10px !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 0.08em !important; color: rgba(150,150,150,0.6) !important; }
+[data-testid="stMetricValue"] { font-size: 15px !important; font-weight: 600 !important; color: #fff !important; }
+[data-testid="stMetricDelta"] { font-size: 11px !important; color: #1D9E75 !important; }
 [data-testid="stMetricDelta"] svg { display: none !important; }
 
 /* ===== IMAGE ===== */
-[data-testid="stImage"] img {
-    border-radius: 12px !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
-}
+[data-testid="stImage"] img { border-radius: 12px !important; border: 1px solid rgba(255,255,255,0.07) !important; }
 
-/* ===== CUSTOM COMPONENTS ===== */
-.page-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: #ffffff;
-    margin: 0 0 4px 0;
-}
-.page-sub {
-    font-size: 13px;
-    color: rgba(160,160,160,0.75);
-    margin: 0;
-}
-.top-bar {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding-bottom: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-.badge {
-    background: rgba(29,158,117,0.18);
-    color: #1D9E75;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(29,158,117,0.35);
-    white-space: nowrap;
-    margin-top: 4px;
-}
-.method-block {
-    background: #161616;
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-.method-header {
-    background: #1c1c1c;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.method-num {
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    border-radius: 6px;
-    background: #1D9E75;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.method-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: #ffffff;
-    margin: 0;
-    line-height: 1.3;
-}
-.method-sub {
-    font-size: 11px;
-    color: rgba(160,160,160,0.65);
-    margin: 0;
-    line-height: 1.3;
-}
-.method-body {
-    padding: 12px 14px;
-}
-.pill-putih {
-    display: inline-block;
-    background: rgba(29,158,117,0.18);
-    color: #1D9E75;
-    border: 1px solid rgba(29,158,117,0.4);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 5px 16px;
-    border-radius: 20px;
-    margin-bottom: 8px;
-}
-.pill-hitam {
-    display: inline-block;
-    background: rgba(83,74,183,0.18);
-    color: #8B85E8;
-    border: 1px solid rgba(83,74,183,0.4);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 5px 16px;
-    border-radius: 20px;
-    margin-bottom: 8px;
-}
-.conf-label {
-    font-size: 11px;
-    color: rgba(160,160,160,0.65);
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: space-between;
-}
-.conf-val {
-    font-weight: 600;
-    color: #ffffff;
-}
-.kmeans-box {
-    background: rgba(186,117,23,0.1);
-    border: 1px solid rgba(186,117,23,0.3);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: #EF9F27;
-    font-size: 13px;
-    line-height: 1.7;
-    font-weight: 500;
-}
-.kmeans-note {
-    font-size: 11px;
-    color: rgba(160,160,160,0.55);
-    margin-top: 8px;
-    line-height: 1.6;
-}
-.section-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: rgba(160,160,160,0.5);
-    margin-bottom: 10px;
-}
-.img-meta {
-    font-size: 11px;
-    color: rgba(160,160,160,0.55);
-    text-align: center;
-    margin-top: 6px;
-}
-.empty-wrap {
-    background: rgba(29,158,117,0.05);
-    border: 1.5px dashed rgba(29,158,117,0.2);
-    border-radius: 14px;
-    padding: 2.5rem;
-    text-align: center;
-    margin-top: 1rem;
-}
-.empty-title {
-    font-size: 15px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.65);
-    margin-bottom: 6px;
-}
-.empty-sub {
-    font-size: 13px;
-    color: rgba(160,160,160,0.55);
-    line-height: 1.7;
-}
-.chip-putih {
-    display: inline-block;
-    background: rgba(29,158,117,0.12);
-    color: #1D9E75;
-    border: 1px solid rgba(29,158,117,0.35);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 4px 14px;
-    border-radius: 20px;
-    margin: 6px 4px 0;
-}
-.chip-hitam {
-    display: inline-block;
-    background: rgba(83,74,183,0.12);
-    color: #8B85E8;
-    border: 1px solid rgba(83,74,183,0.35);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 4px 14px;
-    border-radius: 20px;
-    margin: 6px 4px 0;
-}
-.sidebar-logo {
-    padding-bottom: 1.2rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 1.2rem;
-}
-.sidebar-logo-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: #E1F5EE !important;
-    line-height: 1.4;
-}
-.sidebar-logo-sub {
-    font-size: 11px;
-    color: rgba(255,255,255,0.3) !important;
-    margin-top: 3px;
-}
-.sidebar-section-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.3) !important;
-    margin-bottom: 8px;
-    margin-top: 1.2rem;
-}
-.mcard {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 8px;
-}
-.mcard-name {
-    font-size: 12px;
-    font-weight: 600;
-    color: #9FE1CB !important;
-    margin-bottom: 3px;
-}
-.mcard-desc {
-    font-size: 11px;
-    color: rgba(255,255,255,0.45) !important;
-    line-height: 1.5;
-}
-.drow {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    padding: 5px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-.drow:last-child { border-bottom: none; }
-.dkey { color: rgba(255,255,255,0.4) !important; }
-.dval { color: #9FE1CB !important; font-weight: 600; }
-.credit {
-    font-size: 11px;
-    color: rgba(255,255,255,0.3) !important;
-    line-height: 1.9;
-}
-.credit strong { color: rgba(255,255,255,0.55) !important; }
+/* ===== SPINNER ===== */
+[data-testid="stSpinner"] * { color: rgba(150,150,150,0.7) !important; font-size: 13px !important; }
+
+/* ===== CAPTION ===== */
+[data-testid="stCaptionContainer"] p { color: rgba(140,140,140,0.65) !important; font-size: 11px !important; }
+
+/* ========== CUSTOM HTML COMPONENTS ========== */
+.top-bar { display:flex; align-items:flex-start; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.07); padding-bottom:1rem; margin-bottom:1.4rem; }
+.page-title { font-family:'Syne',sans-serif; font-size:22px; font-weight:700; color:#fff; margin:0 0 3px 0; }
+.page-sub { font-size:13px; color:rgba(150,150,150,0.75); margin:0; }
+.badge { background:rgba(29,158,117,0.15); color:#1D9E75; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; border:1px solid rgba(29,158,117,0.3); white-space:nowrap; margin-top:6px; }
+
+.method-block { background:#141414; border:1px solid rgba(255,255,255,0.08); border-radius:12px; overflow:hidden; margin-bottom:10px; }
+.method-header { background:#1a1a1a; border-bottom:1px solid rgba(255,255,255,0.06); padding:9px 14px; display:flex; align-items:center; gap:10px; }
+.method-num { width:20px; height:20px; min-width:20px; border-radius:6px; background:#1D9E75; color:#fff; font-size:10px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; }
+.method-name { font-size:13px; font-weight:600; color:#fff; margin:0; line-height:1.3; }
+.method-sub { font-size:11px; color:rgba(140,140,140,0.6); margin:0; line-height:1.3; }
+.method-body { padding:12px 14px 10px; }
+
+.row-result { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.pill-putih { background:rgba(29,158,117,0.15); color:#1D9E75; border:1px solid rgba(29,158,117,0.35); font-size:13px; font-weight:600; padding:4px 14px; border-radius:20px; }
+.pill-hitam { background:rgba(83,74,183,0.15); color:#8B85E8; border:1px solid rgba(83,74,183,0.35); font-size:13px; font-weight:600; padding:4px 14px; border-radius:20px; }
+.conf-text { font-size:12px; color:rgba(200,200,200,0.7); }
+.conf-val { font-weight:600; color:#fff; margin-left:4px; }
+
+.kmeans-box { background:rgba(186,117,23,0.1); border:1px solid rgba(186,117,23,0.25); border-radius:8px; padding:10px 14px; color:#EF9F27; font-size:13px; line-height:1.7; font-weight:500; }
+.kmeans-note { font-size:11px; color:rgba(130,130,130,0.55); margin-top:8px; line-height:1.6; }
+
+.section-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.09em; color:rgba(140,140,140,0.45); margin-bottom:10px; }
+.img-meta { font-size:11px; color:rgba(130,130,130,0.5); text-align:center; margin-top:6px; }
+
+.empty-wrap { background:rgba(29,158,117,0.04); border:1.5px dashed rgba(29,158,117,0.18); border-radius:14px; padding:2.5rem; text-align:center; margin-top:0.5rem; }
+.empty-title { font-size:15px; font-weight:500; color:rgba(255,255,255,0.6); margin-bottom:6px; }
+.empty-sub { font-size:13px; color:rgba(140,140,140,0.55); line-height:1.7; }
+.chip-putih { display:inline-block; background:rgba(29,158,117,0.12); color:#1D9E75; border:1px solid rgba(29,158,117,0.3); font-size:12px; font-weight:500; padding:4px 14px; border-radius:20px; margin:6px 4px 0; }
+.chip-hitam { display:inline-block; background:rgba(83,74,183,0.12); color:#8B85E8; border:1px solid rgba(83,74,183,0.3); font-size:12px; font-weight:500; padding:4px 14px; border-radius:20px; margin:6px 4px 0; }
+
+.sidebar-logo-title { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:#E1F5EE !important; line-height:1.4; }
+.sidebar-logo-sub { font-size:11px; color:rgba(255,255,255,0.28) !important; margin-top:3px; }
+.sidebar-section-label { font-size:10px; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:rgba(255,255,255,0.28) !important; margin-bottom:8px; margin-top:1.2rem; display:block; }
+.mcard { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:9px 12px; margin-bottom:8px; }
+.mcard-name { font-size:12px; font-weight:600; color:#9FE1CB !important; margin-bottom:3px; }
+.mcard-desc { font-size:11px; color:rgba(255,255,255,0.4) !important; line-height:1.5; }
+.drow { display:flex; justify-content:space-between; font-size:12px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+.drow:last-child { border-bottom:none; }
+.dkey { color:rgba(255,255,255,0.38) !important; }
+.dval { color:#9FE1CB !important; font-weight:600; }
+.credit { font-size:11px; color:rgba(255,255,255,0.28) !important; line-height:1.9; }
+.credit strong { color:rgba(255,255,255,0.5) !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -405,14 +166,12 @@ mobilenet_model, effnet_extractor, knn, scaler, pca, kmeans, CLASS_NAMES, MODEL_
 # ============================================================
 def preprocess_image_mobilenet(img):
     img = img.convert('RGB').resize(IMG_SIZE)
-    arr = np.array(img, dtype=np.float32)
-    arr = np.expand_dims(arr, axis=0)
+    arr = np.expand_dims(np.array(img, dtype=np.float32), axis=0)
     return mobilenet_preprocess(arr)
 
 def preprocess_image_efficientnet(img):
     img = img.convert('RGB').resize(IMG_SIZE)
-    arr = np.array(img, dtype=np.float32)
-    arr = np.expand_dims(arr, axis=0)
+    arr = np.expand_dims(np.array(img, dtype=np.float32), axis=0)
     return efficientnet_preprocess(arr)
 
 
@@ -421,9 +180,7 @@ def preprocess_image_efficientnet(img):
 # ============================================================
 def predict_mobilenet(img):
     pred = mobilenet_model.predict(preprocess_image_mobilenet(img), verbose=0)[0][0]
-    if pred > 0.5:
-        return 'Ketan Putih', float(pred)
-    return 'Ketan Hitam', float(1 - pred)
+    return ('Ketan Putih', float(pred)) if pred > 0.5 else ('Ketan Hitam', float(1 - pred))
 
 def predict_knn(img):
     features = effnet_extractor.predict(preprocess_image_efficientnet(img), verbose=0)
@@ -444,12 +201,12 @@ def predict_kmeans(img):
 # ============================================================
 with st.sidebar:
     st.markdown(f"""
-    <div class="sidebar-logo">
+    <div style="padding-bottom:1.1rem;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:1rem">
         <div class="sidebar-logo-title">Sistem Klasifikasi Ketan</div>
         <div class="sidebar-logo-sub">Deep Learning + Machine Learning</div>
     </div>
 
-    <div class="sidebar-section-label">Metode</div>
+    <span class="sidebar-section-label">Metode</span>
     <div class="mcard">
         <div class="mcard-name">MobileNetV2</div>
         <div class="mcard-desc">CNN dengan transfer learning dari ImageNet. Supervised learning.</div>
@@ -463,14 +220,14 @@ with st.sidebar:
         <div class="mcard-desc">Clustering unsupervised. Silhouette Score: {MODEL_INFO['sil_score']:.4f}</div>
     </div>
 
-    <div class="sidebar-section-label" style="margin-top:1.4rem">Dataset</div>
+    <span class="sidebar-section-label" style="margin-top:1.3rem">Dataset</span>
     <div class="drow"><span class="dkey">Total gambar</span><span class="dval">824</span></div>
     <div class="drow"><span class="dkey">Per kelas</span><span class="dval">412</span></div>
     <div class="drow"><span class="dkey">Train</span><span class="dval">70%</span></div>
     <div class="drow"><span class="dkey">Validasi</span><span class="dval">20%</span></div>
     <div class="drow"><span class="dkey">Test</span><span class="dval">10%</span></div>
 
-    <div style="margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.08)">
+    <div style="margin-top:1.3rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.07)">
         <div class="credit">
             <strong>Nadjwa Tasya Safira</strong><br>
             2315061024<br>
@@ -507,9 +264,10 @@ if uploaded is not None:
 
     with col_img:
         st.image(img, use_column_width=True)
+        size_kb = uploaded.size // 1024
         st.markdown(
-            f'<div class="img-meta">{uploaded.name} &nbsp;|&nbsp; {img.size[0]} x {img.size[1]} px'
-            f' &nbsp;|&nbsp; {uploaded.size // 1024} KB</div>',
+            f'<div class="img-meta">{uploaded.name} &nbsp;|&nbsp; '
+            f'{img.size[0]} x {img.size[1]} px &nbsp;|&nbsp; {size_kb} KB</div>',
             unsafe_allow_html=True
         )
 
@@ -531,8 +289,10 @@ if uploaded is not None:
                 </div>
             </div>
             <div class="method-body">
-                <span class="{pill_mn}">{label_mn}</span>
-                <div class="conf-label">Confidence <span class="conf-val">{conf_mn*100:.2f}%</span></div>
+                <div class="row-result">
+                    <span class="{pill_mn}">{label_mn}</span>
+                    <span class="conf-text">Confidence <span class="conf-val">{conf_mn*100:.2f}%</span></span>
+                </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -541,7 +301,7 @@ if uploaded is not None:
         # ---- KNN ----
         pill_knn = "pill-putih" if label_knn == "Ketan Putih" else "pill-hitam"
         st.markdown(f"""
-        <div class="method-block" style="margin-top:10px">
+        <div class="method-block" style="margin-top:4px">
             <div class="method-header">
                 <div class="method-num">2</div>
                 <div>
@@ -550,8 +310,10 @@ if uploaded is not None:
                 </div>
             </div>
             <div class="method-body">
-                <span class="{pill_knn}">{label_knn}</span>
-                <div class="conf-label">Confidence <span class="conf-val">{conf_knn*100:.2f}%</span></div>
+                <div class="row-result">
+                    <span class="{pill_knn}">{label_knn}</span>
+                    <span class="conf-text">Confidence <span class="conf-val">{conf_knn*100:.2f}%</span></span>
+                </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -559,7 +321,7 @@ if uploaded is not None:
 
         # ---- K-Means ----
         st.markdown(f"""
-        <div class="method-block" style="margin-top:10px">
+        <div class="method-block" style="margin-top:4px">
             <div class="method-header">
                 <div class="method-num">3</div>
                 <div>
@@ -580,7 +342,7 @@ if uploaded is not None:
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<div style='height:1.2rem'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
     st.markdown('<div class="section-label">Ringkasan Hasil</div>', unsafe_allow_html=True)
 
     col_a, col_b, col_c = st.columns(3)
